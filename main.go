@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/aditisaxena259/mental-health-be/config"
 	"github.com/aditisaxena259/mental-health-be/models"
@@ -43,7 +44,12 @@ func main() {
 	// Setup API routes
 	routes.SetupRoutes(app)
 
-	// Start server
-	log.Println("🚀 Server running at http://localhost:8080")
-	log.Fatal(app.Listen(":8080"))
+	// Dynamic port support
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default for local development
+	}
+
+	log.Printf("🚀 Server running at http://localhost:%s", port)
+	log.Fatal(app.Listen(":" + port))
 }
